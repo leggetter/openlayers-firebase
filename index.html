@@ -42,7 +42,7 @@
         layers[ 'polygon' ] = new OpenLayers.Layer.Vector( 'polygon' );
         layers[ 'box' ]     = new OpenLayers.Layer.Vector( 'box' );
 
-        layers[ 'point' ].events.register( 'beforefeatureadded', layers[ 'point' ], function( ev ) {
+        var beforeFeatureAdded = function( ev ) {
           var feature = ev.feature;
           var featureMKT = feature.geometry.toString();
           var geoJSON = new OpenLayers.Format.GeoJSON();
@@ -73,13 +73,7 @@
             if ( err ) {
               console.log('Transaction failed abnormally!', err);
             }
-            else if (!committed) {
-              console.log('We aborted the transaction (because the feature already exists).');
-            }
-            else {
-              console.log('User wilma added!');
-            }
-            console.log('Wilma\'s data: ', snapshot.val());
+            // TODO: can we hook the adding in here?
           } );
 
           if( !inFirebase ) {
@@ -95,9 +89,17 @@
 
           // Add via Firebase and not via this mechanism.
           return inFirebase;
-        } );
+        };
 
-        map.addLayers( [ wmsLayer, layers[ 'point' ], layers[ 'line' ], layers[ 'polygon' ], layers[ 'box' ] ] );
+        var layer,
+            layersToAdd = [ wmsLayer ];
+        for( var layerName in layers ) {
+          layer = layers[ layerName ];
+          layersToAdd.push( layer );
+          layer.events.register( 'beforefeatureadded', layer, beforeFeatureAdded );
+        }
+
+        map.addLayers( layersToAdd );
         map.addControl(new OpenLayers.Control.LayerSwitcher());
         map.addControl(new OpenLayers.Control.MousePosition());
 
