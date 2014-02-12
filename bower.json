@@ -1,0 +1,19 @@
+{
+  "name": "open-layers-example",
+  "version": "0.0.0",
+  "authors": [
+    "Phil Leggetter <phil@leggetter.co.uk>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "openlayers": "~2.13.1"
+  }
+}
