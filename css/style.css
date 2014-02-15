@@ -76,11 +76,41 @@ h6 {
 /**
  * Map Examples Specific
  */
-.smallmap {
-    width: 512px;
-    height: 256px;
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.map-container {
+    position: relative;
+    overflow: auto;
+}
+
+#map {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     border: 1px solid #ccc;
 }
+
+#controlToggle {
+    position: fixed;
+    z-index: 1000;
+    top: 8px;
+    left: 100px;
+    background: #130085;
+    background: rgba(0, 60, 136, 0.5);
+    filter: alpha(opacity=80);
+    color: white;
+
+    padding: 10px;
+    border-radius: 6px;
+}
+
 #tags {
     display: none;
 }
