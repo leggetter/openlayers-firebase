@@ -19,7 +19,9 @@ function FeatureSync( dataSync, mapBuilder, geoJsonSerializer ) {
  * Data sync feature added event handler.
  *
  * @param snapshot A snapshot of the feature added. API of the object is assumed to be
-                   the same as a Firebase snapshot.
+ *                 the same as a Firebase snapshot.
+ * 
+ * @private
 */
 FeatureSync.prototype._featureAdded = function( snapshot ) {
   var added = snapshot.val();
@@ -32,6 +34,8 @@ FeatureSync.prototype._featureAdded = function( snapshot ) {
  * @param ev The event triggered by the feature addition request.
  *           The event is assumed to have the same API as an OpenLayers
  *           event object.
+ *
+ * @private
  */
 FeatureSync.prototype._handleFeatureAddRequest = function( ev ) {
 
@@ -55,10 +59,12 @@ FeatureSync.prototype._handleFeatureAddRequest = function( ev ) {
     // TODO: can we hook the adding in here?
   } );
 
-  // Add via Firebase and not via this mechanism.
+  // Return true to allow addition of item to the map.
+  // This should only be allowed if the item is in the data sync service.
   return inDataSync;
 };
 
+/** @private */
 FeatureSync.prototype._addFeatureToDataSync = function ( features, feature, layerName ) {
   console.log( '_addFeatureToDataSync' );
   var featureWKT = feature.geometry.toString();
