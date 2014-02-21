@@ -73,30 +73,28 @@ FeatureSync.prototype._addFeatureToDataSync = function ( features, feature, laye
   // Does the feature aleady exist in the data sync?
   var inSyncService = false;
 
-  if( !features ) {
-    return;
-  }
-
-  var existingFeature,
+  if( features ) {
+    var existingFeature,
       existingWKT,
       obj;
-  for( var featureId in features ) {
-    existingFeature = features[ featureId ];    
-    obj = this.geoJsonSerializer.read( JSON.stringify( existingFeature.feature ) )[ 0 ];
-    existingWKT = obj.geometry.toString();
+    for( var featureId in features ) {
+      existingFeature = features[ featureId ];    
+      obj = this.geoJsonSerializer.read( JSON.stringify( existingFeature.feature ) )[ 0 ];
+      existingWKT = obj.geometry.toString();
 
-    /**
-     * the toString() of an OpenLayers feature returns something called 
-     * Well Know Text as a representation of a feature.
-     * This contains feature type and geometry information.
-     * We're using this to define globally unique features on the map.
-     */
-    if( featureWKT === existingWKT ){
-      // feature already exists in the data sync.
-      inSyncService = true;
+      /**
+       * the toString() of an OpenLayers feature returns something called 
+       * Well Know Text as a representation of a feature.
+       * This contains feature type and geometry information.
+       * We're using this to define globally unique features on the map.
+       */
+      if( featureWKT === existingWKT ){
+        // feature already exists in the data sync.
+        inSyncService = true;
 
-      // returning aborts any transaction updates.
-      return;
+        // returning aborts any transaction updates.
+        return;
+      }
     }
   }
 
